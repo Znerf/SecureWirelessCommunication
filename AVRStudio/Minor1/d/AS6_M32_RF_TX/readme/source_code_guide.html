@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Read me ! For Sure !</title>
+<style>
+
+body{
+	margin:0px;
+	padding:0px;
+	font-family:Verdana, Geneva, sans-serif;
+}
+h1{
+	border-bottom:2px solid #0046A6;
+	color:#2080FF;
+}
+.warning, .tip, .download{
+	padding:16px;
+	margin:16px;
+	border:1px solid;
+	border-radius:4px;
+	padding-left:30px;
+	
+}
+
+.warning{
+	border-color:#FC0;
+	background:url(images/warning-icon.png);
+	background-color:#FFC;
+	background-repeat:no-repeat;
+	background-position:left center;	
+}
+
+.tip{
+	border-color:#39F;
+	background:url(images/face-angel-icon.png);
+	background-color:#EAF3FF;
+	background-repeat:no-repeat;
+	background-position:left center;
+}
+
+.download{
+	border-color:#39F;
+	background-color:#EAF3FF;
+}
+.download a{
+	text-decoration:none;
+	font-size:150%;
+}
+
+.extra_info{
+	font-style:italic;
+	color:#666;
+}
+
+.image_caption{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-weight:bold;
+}
+
+.image_caption::before{
+	content:"Fig.",
+}
+
+.highlight{
+	background:#9F0;
+}
+
+.ui{
+	border:1px solid #999;
+	background-color:#EEE;
+	font-style:italic;
+	padding-left:4px;
+	padding-right:4px;
+	font-size:80%;
+}
+
+#content{
+	width:950px;
+	margin-left:320px;
+	margin-right:auto;
+}
+#author_box{
+	border:1px solid #CCC;
+	margin:32px;
+	padding-left:16px;
+	padding-right:16px;
+	background-color:#EEE;
+	height:158px;
+}
+
+#author_box h3{
+	font-weight: bold;
+	text-shadow: 1px 1px 0px #FFF;
+	color: #474539;
+	font-family: "Rokkitt","Lucida Sans","Lucida Grande","Lucida Sans Unicode",sans-serif;
+	margin-top:1px;
+}
+
+#author_image{
+	margin-top:8px;
+	border: 8px solid #FFF;
+	float:left;
+	box-shadow: 2px 2px 3px #888888;
+}
+
+#author_bio{
+	margin-top:8px;
+	margin-left:8px;
+	width:700px;
+	float:left;
+}
+
+#author_social{
+	border:2px solid #fff;
+	padding:4px;
+	display:inline;
+	padding-bottom:8px;
+}
+
+#author_social img{
+	vertical-align:middle;
+}
+	
+#sidebar_left{
+	width:250px;
+	height:550px;
+	position:fixed;
+	top: 16px;
+	left:16px;
+	background-color:#0CF;
+	border-radius:16px;
+	color:#FFF;
+	padding-left:16px;
+	padding-right:16px;
+	box-shadow:3px 3px 3px #888888;
+	
+}
+.btn-download {
+	-moz-box-shadow: 0px 1px 0px 0px #fff6af;
+	-webkit-box-shadow: 0px 1px 0px 0px #fff6af;
+	box-shadow: 0px 1px 0px 0px #fff6af;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffec64), color-stop(1, #ffab23));
+	background:-moz-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background:-webkit-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background:-o-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background:-ms-linear-gradient(top, #ffec64 5%, #ffab23 100%);
+	background:linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffec64', endColorstr='#ffab23',GradientType=0);
+	background-color:#ffec64;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+	width:70%;
+	margin:8px;
+	text-align:center;
+}
+.btn-download:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffec64));
+	background:-moz-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:-webkit-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:-o-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:-ms-linear-gradient(top, #ffab23 5%, #ffec64 100%);
+	background:linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23', endColorstr='#ffec64',GradientType=0);
+	background-color:#ffab23;
+}
+.btn-download:active {
+	position:relative;
+	top:1px;
+}
+
+.align_center{
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+}
+
+</style>
+</head>
+
+<body>
+<div id="sidebar_left">
+ <p>To compile the source code you need following essential software installed properly on your system.</p>
+ <a href="http://www.atmel.com/microsite/atmel_studio6/" class="btn-download">Atmel Studio 6</a>
+
+ <p  style="border: 1px solid #FFF;background-color:inherit; font-size:70%; padding:2px; margin:2px; text-align:center;"> Available as free download !</p>
+ <a href="http://extremeelectronics.co.in"><img src="images/logo.png" class="align_center" style="position:absolute; bottom:0px;"/></a>
+</div>
+<div id="content">
+    <h1>READ ME TWICE FOR SURE !</h1>
+    <p>This tutorial will help you understand what you have just downloaded. We have provided this guide because many people wonders how to properly compile the source code. <span class="highlight">So first thing I would tell you is that the source code is in form of <strong>Atmel Studio 6 </strong> project.</span> Thus you need <strong><a href="http://www.atmel.com/microsite/atmel_studio6/">Atmel Studio 6</a></strong> in order to open, edit and build the project.</p>
+    <p>You should create a folder where you can keep all source code you download from our website. Create a folder named <strong>AVR</strong> in a drive say <strong>E:</strong></p>
+    <p>Make sure whatever name you choose there should NOT be any space in the entire pathname.</p>
+    <p>So <span class="ui">E:\AVR</span> is correct !</p>
+    <p>While <span class="ui">E:\My Projects\AVR</span> is BAD!</p>
+    <p>Inside this download package there is a folder called the <span class="ui">source</span> copy the folder which is present inside <span class="ui">source</span> to your project folder (<span class="ui">E:\AVR</span>).</p>
+    <p>Now open <strong>Atmel Studio 6</strong> <a href="#IDE">IDE</a> from its desktop icon. Then from <span class="ui">File</span> Menu Select <span class="ui">Open &#8250; Project/Solution ...</span></p>
+    <p>You may also use keyboard shortcut  <span class="ui">Ctrl + Shift + O</span></p>
+    <p><img src="images/as6_file_open.png" width="900" height="450" alt="Atmel Studio 6 File Open" /></p>
+    <p>From the dialog that opens, goto <span class="ui">E:\</span> then <span class="ui">AVR</span> and select the project you wish to open. In the image below the project name is <span class="ui">adc_demo</span></p>
+    <p>The file which you should select and open has a red lady bug icon and type is ATMEL Studio 6.2 Solution File.</p>
+    <p>You should open this file only, not the .c files or .h files individually.</p>
+    <p><img src="images/as6_file_open_dialog.png" width="745" height="509" alt="Atmel Studio 6 File Open Dialog" /></p>
+    <p>Atmel Studio will load all the files in the project. A project may be made up of several sources files(.c files). Each file may have some dedicated function, like handling the LCD module or GSM Modem. These files are called library files and they can be reused in several other project.</p>
+    <p>After the project is opened in Atmel Studio, our next task is editing the project. That means to make the changes we need in the program.</p>
+    <p>If the program uses LCD to display its output to the user, the first thing you wanna change is some messages that program show on startup. In all my program I write my name &quot;By Avinash&quot; on the LCD module at startup. You may find this and change it to your name !</p>
+    <p>The <span class="ui">Solution Explorer</span> on the top right hand side of Atmel Studio shows all the files present in the project.</p>
+    <p>Expand the project node to see all the files that are present in the project.</p>
+    <p>They are grouped by their type</p>
+    <ul>
+      <li>Dependencies</li>
+      <li>Output Files</li>
+      <li>Libraries</li>
+    </ul>
+    <p>The most important type of files are source files. They are not grouped and are present on root level. Find a file named <strong><span class="ui">main.c</span></strong>, in most cases you need to make changes to this file only. The rest other files are supporting library files that you should not touch initially.</p>
+    <p><img src="images/as6_solution_explorer.png" width="900" height="704" alt="Atmel Studio 6 Load main.c" /></p>
+    <p>Once you have made the changes, its time to build the project. </p>
+  <p>Building is the process of compiling(or  assembling if file is in   assembly language) various source files(.c files) in the project  and linking the   output files (.o) to give a final executable hex file.</p>
+    <p>To build the project, select <span class="ui">Build  Solution</span> from the <span class="ui">Build</span> menu. You can also use  keyboard shortcut <span class="ui">F7</span> to build the project.</p>
+    <p><img src="images/as6_build.png" width="900" height="701" alt="Atmel Studio 6 Build Project" /></p>
+    <p>If everything is setup correctly and your  source files do not have any syntax error then you will get the following  message.</p>
+    <p>It states the number of projects succeeded  and the number of   projects failed. Since we have only one project in our  solution we   should get something like this :-    </p>
+    <p>If you are good at C programming language and have made no syntax error while editing the program, it should compile without any problem and you should get <span class="ui">BUILD SUCCEEDED</span> message as the build output.</p>
+    <p><img src="images/as6_build_success.png" width="900" height="704" alt="Atmel Studio 6 Build Success" /></p>
+    <p>After a successful build, the final hex file is generated which you can burn directly to the AVR MCU using a <a href="http://store.extremeelectronics.co.in/USB-AVR-Programmer-v2.1.html">USB Programmer</a>. This HEX file can be found at the <span class="ui">Debug</span> folder inside your project folder.    </p>
+    <p>The extension if HEX file is <span class="ui">.hex</span></p>
+    <div id="author_box">
+    	<a href="https://www.facebook.com/avinash.gupta.x"><img src="images/avinash.jpg" id="author_image"/></a>
+        <div id="author_bio">
+    		<h3>The man behind this virus</h3>
+            <p>Avinash Gupta is solely focused on free and high quality tutorial to make learning embedded system fun !</p>
+            <div id="author_social">
+            	<p style="display:inline; font-size:80%; vertical-align:middle;"> You can easily get in touch with him </p>
+            	<a href="https://www.facebook.com/avinash.gupta.x" title="Follow on Facebook"><img src="images/facebook-icon.png" /></a>
+                <a href="https://plus.google.com/+AvinashGuptaa" title="Follow on Google Plus"><img src="images/google-icon.png" /></a>
+            </div>
+        </div>
+    </div>
+    <p class="tip">eXtreme Electronics is a membership only site. Downloads of source codes are allowed only to approved members. So to keep your membership in a healthy state please follow us on <a href="https://www.facebook.com/eXtremeElectronics">Facebook</a> and also share our articles that helped you on your social networking accounts.</p>
+    <h1>AVR Development Made Easy    </h1>
+    <table width="850" border="0" cellspacing="2" cellpadding="5">
+      <tr>
+        <td><div align="center"><a href="http://store.extremeelectronics.co.in/40-PIN-AVR-Development-Board.html"><img src="images/avr_dev_board.jpg" width="400" height="345" alt="AVR Development Board" /></a></div></td>
+        <td><div align="center"><a href="http://store.extremeelectronics.co.in/USB-AVR-Programmer-v2.1.html"><img src="images/usb_avr_programmer.jpg" width="400" height="302" alt="USB AVR Programmer" /></a></div></td>
+      </tr>
+      <tr>
+        <td><div align="center"><strong>AVR Development Board for 40 Pin PIC MCUs</strong></div></td>
+        <td><div align="center"><strong>USB AVR Programmer</strong></div></td>
+      </tr>
+      <tr>
+        <td><div align="center"></div></td>
+        <td><div align="center"></div></td>
+      </tr>
+      <tr>
+        <td><div align="center"><strong><a href="http://store.extremeelectronics.co.in/Adapters/"><img src="images/12v_dc_adapter_1amps.jpg" width="400" height="276" alt="Adapter 12v" /></a></strong></div></td>
+        <td><div align="center"><strong><a href="http://store.extremeelectronics.co.in/Alphanumeric-LCD-Modules/"><img src="images/lcd_blue_text.jpg" width="400" height="193" alt="LCD Modules" /></a></strong></div></td>
+      </tr>
+      <tr>
+        <td><div align="center"><strong>12V 1A Adapter</strong></div></td>
+        <td><div align="center"><strong>LCD Modules</strong></div></td>
+      </tr>
+    </table>
+    <p>More electronics for your everyday needs, delivered to your door steps! <a href="http://store.extremeelectronics.co.in">Online Store</a>.</p>
+    <h1>About the Source Code</h1>
+    <p>In computer science <strong>&quot;source code&quot;</strong> is a program written in a language that is easily understood by  human beings. These type of language are called high level language. There are several standard high level language like C, C++, BASIC, Java, PHP etc. But most professional embedded applications are written in C or C++. <strong>The source code that you have just downloaded is written in C language.</strong></p>
+    <p class="warning">A program written in high level language cannot be directly executed on CPU! It must first be converted into machine language.</p>
+    <p class="tip">Learning a programming language is NOT an one night affair! It takes years to get expert on them. Also some programming languages like C looks very tough to new programmers. Thus they must first learn concepts of programming with some easier languages like <a href="http://en.wikipedia.org/wiki/BASIC">BASIC</a> or <a href="http://en.wikipedia.org/wiki/Logo_(programming_language)">LOGO</a>.</p>
+    <p class="tip">Luckily I was born in the times when they taught programming to school kids like they teach MS Office nowadays!</p>
+    <h2>Compilers</h2>
+    <p>Compiler is a computer software that converts a program written high level language to machine code that can be directly executed on a CPU. So we need a compiler that converts the program written in <strong>C language</strong> to machine code for <strong>AVR</strong> series MCUs. Since compiler is a &quot;product&quot; thus it is developed by many companies and sold at different prices. I have selected a compiler that is also good for your pocket. I use <a href="http://www.nongnu.org/avr-libc/">avr-gcc</a> for all my projects. Latest version comes bundled with Atmel Studio 6 so you don't need to install it separately.    </p>
+    <h2><a name="IDE"></a>IDE or Integrated Development Environment</h2>
+    <p><span class="highlight">Installing a compiler only is NOT enough to get started with development.</span> Because a compiler takes as input the programs written in high level language in form of text files. You can theoretically create those program files in any text editor like Notepad under Windows. But to make the entire task manageable, one GUI software called the IDE is required to create those program files. An IDE offers much more than just editing programs.</p>
+    <ul>
+      <li>Add and edit files to project.</li>
+      <li>The editor is much more powerful than Notepad and is specially designed for writing programs in C and thus has following advantage.
+        <ul>
+          <li>Your typing gets faster with the assistance of auto-complete where the editor offers you to chose long variable and function names from a list.</li>
+          <li>Any syntax error is underlined RED in real time thus allowing to to make corrections.</li>
+          <li>Better view of the program. Thanks to <strong>syntax highlight</strong> feature different parts of the program gets different colours and looks.</li>
+        </ul>
+      </li>
+      <li>Compiler also manages the <strong>compiler settings</strong> which are very crucial for proper and error free compilation of the programs.</li>
+      <li>It calls the compiler for your from just a click of menu.</li>
+      <li>Shows the result of the compilation process.</li>
+      <li>It also helps in debugging of the programs.</li>
+    </ul>
+    <p><img src="images/as6_parts.png" width="815" height="642" alt="Parts of Atmel Studio 6" /></p>
+    <p class="image_caption">The Atmel Studio 6 IDE</p>
+</div>
+</body>
+</html>

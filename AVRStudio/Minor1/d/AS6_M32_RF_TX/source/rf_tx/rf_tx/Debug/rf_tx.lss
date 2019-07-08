@@ -1,0 +1,331 @@
+
+rf_tx.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001a4  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000042  00800060  00800060  00000218  2**0
+                  ALLOC
+  2 .comment      00000030  00000000  00000000  00000218  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000068  00000000  00000000  00000248  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   00000459  00000000  00000000  000002b0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 00000283  00000000  00000000  00000709  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   000002ef  00000000  00000000  0000098c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  000000c8  00000000  00000000  00000c7c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    000001c3  00000000  00000000  00000d44  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    00000166  00000000  00000000  00000f07  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000060  00000000  00000000  0000106d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 4b 00 	jmp	0x96	; 0x96 <__vector_13>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 3a       	cpi	r26, 0xA2	; 162
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 a7 00 	call	0x14e	; 0x14e <main>
+  74:	0c 94 d0 00 	jmp	0x1a0	; 0x1a0 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <USARTInit>:
+
+
+void USARTInit(uint16_t ubrrvalue)
+{
+	//Setup q
+	UQFront=UQEnd=-1;
+  7c:	2f ef       	ldi	r18, 0xFF	; 255
+  7e:	20 93 61 00 	sts	0x0061, r18
+  82:	20 93 60 00 	sts	0x0060, r18
+
+	//Set Baud rate
+	UBRRH=(unsigned char)(ubrrvalue>>8);
+  86:	90 bd       	out	0x20, r25	; 32
+	UBRRL=(unsigned char)ubrrvalue;
+  88:	89 b9       	out	0x09, r24	; 9
+	1 StopBit
+	char size 8
+
+	*/
+
+	UCSRC=(1<<URSEL)|(3<<UCSZ0);
+  8a:	86 e8       	ldi	r24, 0x86	; 134
+  8c:	80 bd       	out	0x20, r24	; 32
+
+	Enable The recevier and transmitter
+
+	*/
+
+	UCSRB=(1<<RXCIE)|(1<<TXEN);
+  8e:	88 e8       	ldi	r24, 0x88	; 136
+  90:	8a b9       	out	0x0a, r24	; 10
+	sei();
+  92:	78 94       	sei
+  94:	08 95       	ret
+
+00000096 <__vector_13>:
+
+}
+
+//The USART ISR
+ISR(USART_RXC_VECT)
+{
+  96:	1f 92       	push	r1
+  98:	0f 92       	push	r0
+  9a:	0f b6       	in	r0, 0x3f	; 63
+  9c:	0f 92       	push	r0
+  9e:	11 24       	eor	r1, r1
+  a0:	2f 93       	push	r18
+  a2:	3f 93       	push	r19
+  a4:	4f 93       	push	r20
+  a6:	8f 93       	push	r24
+  a8:	9f 93       	push	r25
+  aa:	ef 93       	push	r30
+  ac:	ff 93       	push	r31
+	//Read the data
+	char data=UDR;
+  ae:	4c b1       	in	r20, 0x0c	; 12
+
+	//Now add it to q
+
+	if(((UQEnd==RECEIVE_BUFF_SIZE-1) && UQFront==0) || ((UQEnd+1)==UQFront))
+  b0:	80 91 61 00 	lds	r24, 0x0061
+  b4:	8f 33       	cpi	r24, 0x3F	; 63
+  b6:	89 f1       	breq	.+98     	; 0x11a <__vector_13+0x84>
+  b8:	80 91 61 00 	lds	r24, 0x0061
+  bc:	20 91 60 00 	lds	r18, 0x0060
+  c0:	99 27       	eor	r25, r25
+  c2:	87 fd       	sbrc	r24, 7
+  c4:	90 95       	com	r25
+  c6:	01 96       	adiw	r24, 0x01	; 1
+  c8:	33 27       	eor	r19, r19
+  ca:	27 fd       	sbrc	r18, 7
+  cc:	30 95       	com	r19
+  ce:	82 17       	cp	r24, r18
+  d0:	93 07       	cpc	r25, r19
+  d2:	39 f1       	breq	.+78     	; 0x122 <__vector_13+0x8c>
+		UQFront++;
+		if(UQFront==RECEIVE_BUFF_SIZE) UQFront=0;
+	}
+	
+
+	if(UQEnd==RECEIVE_BUFF_SIZE-1)
+  d4:	80 91 61 00 	lds	r24, 0x0061
+  d8:	8f 33       	cpi	r24, 0x3F	; 63
+  da:	91 f1       	breq	.+100    	; 0x140 <__vector_13+0xaa>
+		UQEnd=0;
+	else
+		UQEnd++;
+  dc:	80 91 61 00 	lds	r24, 0x0061
+  e0:	8f 5f       	subi	r24, 0xFF	; 255
+  e2:	80 93 61 00 	sts	0x0061, r24
+
+
+	URBuff[UQEnd]=data;
+  e6:	e0 91 61 00 	lds	r30, 0x0061
+  ea:	ff 27       	eor	r31, r31
+  ec:	e7 fd       	sbrc	r30, 7
+  ee:	f0 95       	com	r31
+  f0:	ee 59       	subi	r30, 0x9E	; 158
+  f2:	ff 4f       	sbci	r31, 0xFF	; 255
+  f4:	40 83       	st	Z, r20
+
+	if(UQFront==-1) UQFront=0;
+  f6:	80 91 60 00 	lds	r24, 0x0060
+  fa:	8f 3f       	cpi	r24, 0xFF	; 255
+  fc:	11 f4       	brne	.+4      	; 0x102 <__vector_13+0x6c>
+  fe:	10 92 60 00 	sts	0x0060, r1
+
+}
+ 102:	ff 91       	pop	r31
+ 104:	ef 91       	pop	r30
+ 106:	9f 91       	pop	r25
+ 108:	8f 91       	pop	r24
+ 10a:	4f 91       	pop	r20
+ 10c:	3f 91       	pop	r19
+ 10e:	2f 91       	pop	r18
+ 110:	0f 90       	pop	r0
+ 112:	0f be       	out	0x3f, r0	; 63
+ 114:	0f 90       	pop	r0
+ 116:	1f 90       	pop	r1
+ 118:	18 95       	reti
+	//Read the data
+	char data=UDR;
+
+	//Now add it to q
+
+	if(((UQEnd==RECEIVE_BUFF_SIZE-1) && UQFront==0) || ((UQEnd+1)==UQFront))
+ 11a:	80 91 60 00 	lds	r24, 0x0060
+ 11e:	81 11       	cpse	r24, r1
+ 120:	cb cf       	rjmp	.-106    	; 0xb8 <__vector_13+0x22>
+	{
+		//Q Full
+		UQFront++;
+ 122:	80 91 60 00 	lds	r24, 0x0060
+ 126:	8f 5f       	subi	r24, 0xFF	; 255
+ 128:	80 93 60 00 	sts	0x0060, r24
+		if(UQFront==RECEIVE_BUFF_SIZE) UQFront=0;
+ 12c:	80 91 60 00 	lds	r24, 0x0060
+ 130:	80 34       	cpi	r24, 0x40	; 64
+ 132:	81 f6       	brne	.-96     	; 0xd4 <__vector_13+0x3e>
+ 134:	10 92 60 00 	sts	0x0060, r1
+	}
+	
+
+	if(UQEnd==RECEIVE_BUFF_SIZE-1)
+ 138:	80 91 61 00 	lds	r24, 0x0061
+ 13c:	8f 33       	cpi	r24, 0x3F	; 63
+ 13e:	71 f6       	brne	.-100    	; 0xdc <__vector_13+0x46>
+		UQEnd=0;
+ 140:	10 92 61 00 	sts	0x0061, r1
+ 144:	d0 cf       	rjmp	.-96     	; 0xe6 <__vector_13+0x50>
+
+00000146 <UWriteData>:
+}
+
+void UWriteData(char data)
+{
+	//Wait For Transmitter to become ready
+	while(!(UCSRA & (1<<UDRE)));
+ 146:	5d 9b       	sbis	0x0b, 5	; 11
+ 148:	fe cf       	rjmp	.-4      	; 0x146 <UWriteData>
+
+	//Now write
+	UDR=data;
+ 14a:	8c b9       	out	0x0c, r24	; 12
+ 14c:	08 95       	ret
+
+0000014e <main>:
+#include "lib/usart/usart_avr.h"
+
+void main()
+{
+	//Initialize the USART with Baud rate = 2400bps
+	USARTInit(416);
+ 14e:	80 ea       	ldi	r24, 0xA0	; 160
+ 150:	91 e0       	ldi	r25, 0x01	; 1
+ 152:	0e 94 3e 00 	call	0x7c	; 0x7c <USARTInit>
+
+	//Enable Internal Pullups on PORTC
+	PORTC=0xFF;
+ 156:	8f ef       	ldi	r24, 0xFF	; 255
+ 158:	85 bb       	out	0x15, r24	; 21
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 15a:	c0 e0       	ldi	r28, 0x00	; 0
+ 15c:	d0 e0       	ldi	r29, 0x00	; 0
+	*/
+	
+	uint8_t data;
+	while(1)
+	{
+		data=PINC;
+ 15e:	13 b3       	in	r17, 0x13	; 19
+		Packet Format is AA<data><data inverse>Z
+		total Packet size if 5 bytes.
+		*/
+
+		//Stabilize the Tx Module By Sending JUNK data
+		UWriteData('J');	//J for junk
+ 160:	8a e4       	ldi	r24, 0x4A	; 74
+ 162:	0e 94 a3 00 	call	0x146	; 0x146 <UWriteData>
+
+		//Send 'A'
+		UWriteData('A');
+ 166:	81 e4       	ldi	r24, 0x41	; 65
+ 168:	0e 94 a3 00 	call	0x146	; 0x146 <UWriteData>
+
+		//Send Another 'A'
+		UWriteData('A');
+ 16c:	81 e4       	ldi	r24, 0x41	; 65
+ 16e:	0e 94 a3 00 	call	0x146	; 0x146 <UWriteData>
+
+		//Send the data;
+		UWriteData(data);
+ 172:	81 2f       	mov	r24, r17
+ 174:	0e 94 a3 00 	call	0x146	; 0x146 <UWriteData>
+
+		//Send inverse of data for error detection purpose
+		UWriteData(~data);
+ 178:	81 2f       	mov	r24, r17
+ 17a:	80 95       	com	r24
+ 17c:	0e 94 a3 00 	call	0x146	; 0x146 <UWriteData>
+
+		//End the packet by writing 'Z'
+		UWriteData('Z');
+ 180:	8a e5       	ldi	r24, 0x5A	; 90
+ 182:	0e 94 a3 00 	call	0x146	; 0x146 <UWriteData>
+ 186:	ce 01       	movw	r24, r28
+ 188:	01 97       	sbiw	r24, 0x01	; 1
+ 18a:	f1 f7       	brne	.-4      	; 0x188 <main+0x3a>
+ 18c:	ce 01       	movw	r24, r28
+ 18e:	01 97       	sbiw	r24, 0x01	; 1
+ 190:	f1 f7       	brne	.-4      	; 0x18e <main+0x40>
+ 192:	ce 01       	movw	r24, r28
+ 194:	01 97       	sbiw	r24, 0x01	; 1
+ 196:	f1 f7       	brne	.-4      	; 0x194 <main+0x46>
+ 198:	ce 01       	movw	r24, r28
+ 19a:	01 97       	sbiw	r24, 0x01	; 1
+ 19c:	f1 f7       	brne	.-4      	; 0x19a <main+0x4c>
+ 19e:	df cf       	rjmp	.-66     	; 0x15e <main+0x10>
+
+000001a0 <_exit>:
+ 1a0:	f8 94       	cli
+
+000001a2 <__stop_program>:
+ 1a2:	ff cf       	rjmp	.-2      	; 0x1a2 <__stop_program>
