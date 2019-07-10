@@ -3,29 +3,29 @@ LCD and Motorencoder.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000296  00000000  00000000  00000074  2**1
+  0 .text         00000290  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000032  00800060  00000296  0000030a  2**0
+  1 .data         00000032  00800060  00000290  00000304  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000033c  2**0
+  2 .comment      00000030  00000000  00000000  00000336  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000036c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000368  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000e0  00000000  00000000  000003a8  2**0
+  4 .debug_aranges 000000e0  00000000  00000000  000003a4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000015c1  00000000  00000000  00000488  2**0
+  5 .debug_info   000015e1  00000000  00000000  00000484  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000944  00000000  00000000  00001a49  2**0
+  6 .debug_abbrev 00000944  00000000  00000000  00001a65  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000009eb  00000000  00000000  0000238d  2**0
+  7 .debug_line   000009f1  00000000  00000000  000023a9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  0000027c  00000000  00000000  00002d78  2**2
+  8 .debug_frame  0000027c  00000000  00000000  00002d9c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000063a  00000000  00000000  00002ff4  2**0
+  9 .debug_str    00000656  00000000  00000000  00003018  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00001161  00000000  00000000  0000362e  2**0
+ 10 .debug_loc    00001161  00000000  00000000  0000366e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000d8  00000000  00000000  0000478f  2**0
+ 11 .debug_ranges 000000d8  00000000  00000000  000047cf  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,7 +65,7 @@ Disassembly of section .text:
   60:	10 e0       	ldi	r17, 0x00	; 0
   62:	a0 e6       	ldi	r26, 0x60	; 96
   64:	b0 e0       	ldi	r27, 0x00	; 0
-  66:	e6 e9       	ldi	r30, 0x96	; 150
+  66:	e0 e9       	ldi	r30, 0x90	; 144
   68:	f2 e0       	ldi	r31, 0x02	; 2
   6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
   6c:	05 90       	lpm	r0, Z+
@@ -73,8 +73,8 @@ Disassembly of section .text:
   70:	a2 39       	cpi	r26, 0x92	; 146
   72:	b1 07       	cpc	r27, r17
   74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
-  76:	0e 94 03 01 	call	0x206	; 0x206 <main>
-  7a:	0c 94 49 01 	jmp	0x292	; 0x292 <_exit>
+  76:	0e 94 f6 00 	call	0x1ec	; 0x1ec <main>
+  7a:	0c 94 46 01 	jmp	0x28c	; 0x28c <_exit>
 
 0000007e <__bad_interrupt>:
   7e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -242,186 +242,161 @@ void lcd_gotoxy( unsigned char x, unsigned char y )
  1a8:	08 95       	ret
 
 000001aa <_Z10USART_Initv>:
-#define LEDOFF 0x22//switch led off command
-
-void USART_Init(void)
+	USART_vSendByte((addr+cmd));//send checksum
+}
+void delayms(uint8_t t)//delay in ms
 {
-	//Set baud rate
-	UBRRL=(uint8_t)UBRRVAL;     //low byte
- 1aa:	87 e3       	ldi	r24, 0x37	; 55
+	uint8_t i;
+	for(i=0;i<t;i++)
+ 1aa:	80 e4       	ldi	r24, 0x40	; 64
  1ac:	89 b9       	out	0x09, r24	; 9
-	UBRRH=(UBRRVAL>>8);   //high byte
- 1ae:	81 e0       	ldi	r24, 0x01	; 1
+ 1ae:	83 e0       	ldi	r24, 0x03	; 3
  1b0:	80 bd       	out	0x20, r24	; 32
-	//Set data frame format: asynchronous mode,no parity, 1 stop bit, 8 bit size
-	UCSRC=(1<<URSEL)|(0<<UMSEL)|(0<<UPM1)|(0<<UPM0)|
-	(0<<USBS)|(0<<UCSZ2)|(1<<UCSZ1)|(1<<UCSZ0);
  1b2:	86 e8       	ldi	r24, 0x86	; 134
  1b4:	80 bd       	out	0x20, r24	; 32
-	//Enable Transmitter and Receiver and Interrupt on receive complete
-	UCSRB=(1<<TXEN);
  1b6:	88 e0       	ldi	r24, 0x08	; 8
  1b8:	8a b9       	out	0x0a, r24	; 10
  1ba:	08 95       	ret
 
 000001bc <_Z15USART_vSendByteh>:
-}
-void USART_vSendByte(uint8_t u8Data)
-{
-	// Wait if a byte is being transmitted
-	while((UCSRA&(1<<UDRE)) == 0);
  1bc:	5d 9b       	sbis	0x0b, 5	; 11
  1be:	fe cf       	rjmp	.-4      	; 0x1bc <_Z15USART_vSendByteh>
-	// Transmit data
-	UDR = u8Data;
  1c0:	8c b9       	out	0x0c, r24	; 12
  1c2:	08 95       	ret
 
 000001c4 <_Z11Send_Packethh>:
-}
-void Send_Packet(uint8_t addr, uint8_t cmd)
-{
  1c4:	cf 93       	push	r28
  1c6:	df 93       	push	r29
  1c8:	d8 2f       	mov	r29, r24
  1ca:	c6 2f       	mov	r28, r22
-	USART_vSendByte(SYNC);//send synchro byte
  1cc:	8a ea       	ldi	r24, 0xAA	; 170
  1ce:	0e 94 de 00 	call	0x1bc	; 0x1bc <_Z15USART_vSendByteh>
-	USART_vSendByte(addr);//send receiver address
  1d2:	8d 2f       	mov	r24, r29
  1d4:	0e 94 de 00 	call	0x1bc	; 0x1bc <_Z15USART_vSendByteh>
-	USART_vSendByte(cmd);//send increment command
  1d8:	8c 2f       	mov	r24, r28
  1da:	0e 94 de 00 	call	0x1bc	; 0x1bc <_Z15USART_vSendByteh>
-	USART_vSendByte((addr+cmd));//send checksum
  1de:	8d 2f       	mov	r24, r29
  1e0:	8c 0f       	add	r24, r28
  1e2:	0e 94 de 00 	call	0x1bc	; 0x1bc <_Z15USART_vSendByteh>
-}
  1e6:	df 91       	pop	r29
  1e8:	cf 91       	pop	r28
  1ea:	08 95       	ret
 
-000001ec <_Z7delaymsh>:
-void delayms(uint8_t t)//delay in ms
-{
-	uint8_t i;
-	for(i=0;i<t;i++)
- 1ec:	88 23       	and	r24, r24
- 1ee:	51 f0       	breq	.+20     	; 0x204 <_Z7delaymsh+0x18>
- 1f0:	90 e0       	ldi	r25, 0x00	; 0
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
- 1f2:	eb ed       	ldi	r30, 0xDB	; 219
- 1f4:	f5 e0       	ldi	r31, 0x05	; 5
- 1f6:	31 97       	sbiw	r30, 0x01	; 1
- 1f8:	f1 f7       	brne	.-4      	; 0x1f6 <_Z7delaymsh+0xa>
- 1fa:	00 c0       	rjmp	.+0      	; 0x1fc <_Z7delaymsh+0x10>
- 1fc:	00 00       	nop
- 1fe:	9f 5f       	subi	r25, 0xFF	; 255
- 200:	89 13       	cpse	r24, r25
- 202:	f7 cf       	rjmp	.-18     	; 0x1f2 <_Z7delaymsh+0x6>
- 204:	08 95       	ret
-
-00000206 <main>:
-	_delay_ms(1);
+000001ec <main>:
 }
+
+
 
 int main(void)
 {
- 206:	cf 93       	push	r28
- 208:	df 93       	push	r29
- 20a:	cd b7       	in	r28, 0x3d	; 61
- 20c:	de b7       	in	r29, 0x3e	; 62
- 20e:	e2 97       	sbiw	r28, 0x32	; 50
- 210:	0f b6       	in	r0, 0x3f	; 63
- 212:	f8 94       	cli
- 214:	de bf       	out	0x3e, r29	; 62
- 216:	0f be       	out	0x3f, r0	; 63
- 218:	cd bf       	out	0x3d, r28	; 61
+ 1ec:	cf 93       	push	r28
+ 1ee:	df 93       	push	r29
+ 1f0:	cd b7       	in	r28, 0x3d	; 61
+ 1f2:	de b7       	in	r29, 0x3e	; 62
+ 1f4:	e2 97       	sbiw	r28, 0x32	; 50
+ 1f6:	0f b6       	in	r0, 0x3f	; 63
+ 1f8:	f8 94       	cli
+ 1fa:	de bf       	out	0x3e, r29	; 62
+ 1fc:	0f be       	out	0x3f, r0	; 63
+ 1fe:	cd bf       	out	0x3d, r28	; 61
+	
 	USART_Init();
- 21a:	0e 94 d5 00 	call	0x1aa	; 0x1aa <_Z10USART_Initv>
+ 200:	0e 94 d5 00 	call	0x1aa	; 0x1aa <_Z10USART_Initv>
 	lcd_init();
- 21e:	0e 94 92 00 	call	0x124	; 0x124 <_Z8lcd_initv>
-	char str1[50] = "Hamstring?";
- 222:	8b e0       	ldi	r24, 0x0B	; 11
- 224:	e0 e6       	ldi	r30, 0x60	; 96
- 226:	f0 e0       	ldi	r31, 0x00	; 0
- 228:	de 01       	movw	r26, r28
- 22a:	11 96       	adiw	r26, 0x01	; 1
- 22c:	01 90       	ld	r0, Z+
- 22e:	0d 92       	st	X+, r0
- 230:	8a 95       	dec	r24
- 232:	e1 f7       	brne	.-8      	; 0x22c <main+0x26>
- 234:	fe 01       	movw	r30, r28
- 236:	3c 96       	adiw	r30, 0x0c	; 12
- 238:	87 e2       	ldi	r24, 0x27	; 39
- 23a:	df 01       	movw	r26, r30
- 23c:	1d 92       	st	X+, r1
- 23e:	8a 95       	dec	r24
- 240:	e9 f7       	brne	.-6      	; 0x23c <main+0x36>
+ 204:	0e 94 92 00 	call	0x124	; 0x124 <_Z8lcd_initv>
+	
+	char str1[50] = "Defender";
+ 208:	89 e0       	ldi	r24, 0x09	; 9
+ 20a:	e0 e6       	ldi	r30, 0x60	; 96
+ 20c:	f0 e0       	ldi	r31, 0x00	; 0
+ 20e:	de 01       	movw	r26, r28
+ 210:	11 96       	adiw	r26, 0x01	; 1
+ 212:	01 90       	ld	r0, Z+
+ 214:	0d 92       	st	X+, r0
+ 216:	8a 95       	dec	r24
+ 218:	e1 f7       	brne	.-8      	; 0x212 <main+0x26>
+ 21a:	fe 01       	movw	r30, r28
+ 21c:	3a 96       	adiw	r30, 0x0a	; 10
+ 21e:	89 e2       	ldi	r24, 0x29	; 41
+ 220:	df 01       	movw	r26, r30
+ 222:	1d 92       	st	X+, r1
+ 224:	8a 95       	dec	r24
+ 226:	e9 f7       	brne	.-6      	; 0x222 <main+0x36>
 	lcd_gotoxy(0,0);
- 242:	60 e0       	ldi	r22, 0x00	; 0
- 244:	80 e0       	ldi	r24, 0x00	; 0
- 246:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z10lcd_gotoxyhh>
+ 228:	60 e0       	ldi	r22, 0x00	; 0
+ 22a:	80 e0       	ldi	r24, 0x00	; 0
+ 22c:	0e 94 ce 00 	call	0x19c	; 0x19c <_Z10lcd_gotoxyhh>
 	lcd_puts(str1);
- 24a:	ce 01       	movw	r24, r28
- 24c:	01 96       	adiw	r24, 0x01	; 1
- 24e:	0e 94 7d 00 	call	0xfa	; 0xfa <_Z8lcd_putsPKc>
+ 230:	ce 01       	movw	r24, r28
+ 232:	01 96       	adiw	r24, 0x01	; 1
+ 234:	0e 94 7d 00 	call	0xfa	; 0xfa <_Z8lcd_putsPKc>
 	
 	Send_Packet(RADDR, SYNC);
- 252:	6a ea       	ldi	r22, 0xAA	; 170
- 254:	84 e4       	ldi	r24, 0x44	; 68
- 256:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
-	delayms(100);
- 25a:	84 e6       	ldi	r24, 0x64	; 100
- 25c:	0e 94 f6 00 	call	0x1ec	; 0x1ec <_Z7delaymsh>
-	//send command to switch led ON
-	int i=0;
-	while(str1[i] != '?'){
- 260:	69 81       	ldd	r22, Y+1	; 0x01
- 262:	6f 33       	cpi	r22, 0x3F	; 63
- 264:	71 f0       	breq	.+28     	; 0x282 <main+0x7c>
- 266:	8e 01       	movw	r16, r28
- 268:	0e 5f       	subi	r16, 0xFE	; 254
- 26a:	1f 4f       	sbci	r17, 0xFF	; 255
-		Send_Packet(RADDR, str1[i]);
- 26c:	84 e4       	ldi	r24, 0x44	; 68
- 26e:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
-		delayms(100);
- 272:	84 e6       	ldi	r24, 0x64	; 100
- 274:	0e 94 f6 00 	call	0x1ec	; 0x1ec <_Z7delaymsh>
+ 238:	6a ea       	ldi	r22, 0xAA	; 170
+ 23a:	84 e4       	ldi	r24, 0x44	; 68
+ 23c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
+	//delayms(10);
 	
 	Send_Packet(RADDR, SYNC);
-	delayms(100);
+ 240:	6a ea       	ldi	r22, 0xAA	; 170
+ 242:	84 e4       	ldi	r24, 0x44	; 68
+ 244:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
+	//delayms(10);
+	
+	Send_Packet(RADDR, SYNC);
+ 248:	6a ea       	ldi	r22, 0xAA	; 170
+ 24a:	84 e4       	ldi	r24, 0x44	; 68
+ 24c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
+	//delayms(10);
 	//send command to switch led ON
 	int i=0;
-	while(str1[i] != '?'){
- 278:	f8 01       	movw	r30, r16
- 27a:	61 91       	ld	r22, Z+
- 27c:	8f 01       	movw	r16, r30
- 27e:	6f 33       	cpi	r22, 0x3F	; 63
- 280:	a9 f7       	brne	.-22     	; 0x26c <main+0x66>
+	while(str1[i] != '\0'){
+ 250:	69 81       	ldd	r22, Y+1	; 0x01
+ 252:	66 23       	and	r22, r22
+ 254:	b1 f0       	breq	.+44     	; 0x282 <main+0x96>
+ 256:	8e 01       	movw	r16, r28
+ 258:	0f 5f       	subi	r16, 0xFF	; 255
+ 25a:	1f 4f       	sbci	r17, 0xFF	; 255
 		Send_Packet(RADDR, str1[i]);
-		delayms(100);
+ 25c:	84 e4       	ldi	r24, 0x44	; 68
+ 25e:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
+ 262:	78 01       	movw	r14, r16
+		//delayms(10);
+		Send_Packet(RADDR, str1[i]);
+ 264:	f8 01       	movw	r30, r16
+ 266:	61 91       	ld	r22, Z+
+ 268:	8f 01       	movw	r16, r30
+ 26a:	84 e4       	ldi	r24, 0x44	; 68
+ 26c:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
+		//delayms(10);
+		Send_Packet(RADDR, str1[i]);
+ 270:	d7 01       	movw	r26, r14
+ 272:	6c 91       	ld	r22, X
+ 274:	84 e4       	ldi	r24, 0x44	; 68
+ 276:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
+	
+	Send_Packet(RADDR, SYNC);
+	//delayms(10);
+	//send command to switch led ON
+	int i=0;
+	while(str1[i] != '\0'){
+ 27a:	f8 01       	movw	r30, r16
+ 27c:	60 81       	ld	r22, Z
+ 27e:	61 11       	cpse	r22, r1
+ 280:	ed cf       	rjmp	.-38     	; 0x25c <main+0x70>
+		//delayms(10);
+		Send_Packet(RADDR, str1[i]);
+		//delayms(10);
 		i++;
 	}
 	Send_Packet(RADDR, SYNC);
  282:	6a ea       	ldi	r22, 0xAA	; 170
  284:	84 e4       	ldi	r24, 0x44	; 68
  286:	0e 94 e2 00 	call	0x1c4	; 0x1c4 <_Z11Send_Packethh>
-	delayms(100);
- 28a:	84 e6       	ldi	r24, 0x64	; 100
- 28c:	0e 94 f6 00 	call	0x1ec	; 0x1ec <_Z7delaymsh>
- 290:	ff cf       	rjmp	.-2      	; 0x290 <main+0x8a>
+ 28a:	ff cf       	rjmp	.-2      	; 0x28a <main+0x9e>
 
-00000292 <_exit>:
- 292:	f8 94       	cli
+0000028c <_exit>:
+ 28c:	f8 94       	cli
 
-00000294 <__stop_program>:
- 294:	ff cf       	rjmp	.-2      	; 0x294 <__stop_program>
+0000028e <__stop_program>:
+ 28e:	ff cf       	rjmp	.-2      	; 0x28e <__stop_program>

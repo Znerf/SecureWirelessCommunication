@@ -1,6 +1,6 @@
 #ifndef F_CPU
 //define cpu clock speed if not defined
-#define F_CPU 6000000
+#define F_CPU 16000000
 #endif
 
 #include <avr/io.h>
@@ -8,7 +8,6 @@
 #include <util/delay.h>
 #include "lcd.h"
 
-//#define F_CPU 6000000UL
 
 //set desired baud rate
 #define BAUDRATE 1200
@@ -17,8 +16,6 @@
 //define receive parameters
 #define SYNC 0XAA// synchro signal
 #define RADDR 0x44
-#define LEDON 0x11//switch led on command
-#define LEDOFF 0x22//switch led off command
 
 void USART_Init(void)
 {
@@ -52,25 +49,39 @@ void delayms(uint8_t t)//delay in ms
 	_delay_ms(1);
 }
 
+
+
 int main(void)
 {
+	
 	USART_Init();
 	lcd_init();
-	char str1[50] = "Hamstring?";
+	
+	char str1[50] = "Defender";
 	lcd_gotoxy(0,0);
 	lcd_puts(str1);
 	
 	Send_Packet(RADDR, SYNC);
-	delayms(100);
+	//delayms(10);
+	
+	Send_Packet(RADDR, SYNC);
+	//delayms(10);
+	
+	Send_Packet(RADDR, SYNC);
+	//delayms(10);
 	//send command to switch led ON
 	int i=0;
-	while(str1[i] != '?'){
+	while(str1[i] != '\0'){
 		Send_Packet(RADDR, str1[i]);
-		delayms(100);
+		//delayms(10);
+		Send_Packet(RADDR, str1[i]);
+		//delayms(10);
+		Send_Packet(RADDR, str1[i]);
+		//delayms(10);
 		i++;
 	}
 	Send_Packet(RADDR, SYNC);
-	delayms(100);
+	//delayms(10);
 	
 	while (1)
 	{//endless transmission
