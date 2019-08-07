@@ -159,6 +159,10 @@ void blowfish_clean(blowfish_context_t *ctx)
 int main(void)
 {
 	
+	char histring[17], lostring[9];
+	char string[17];
+	unsigned int len;
+	
 	USART_Init();
 	lcd_init();
 	char str1[50] = "Defender";
@@ -181,29 +185,32 @@ int main(void)
 	const char * text = "Defender"; //hex(space) = 20H;
 
 	unsigned long hi = 0x44656665L, lo = 0x6e646572L;
-
+	
 	
 	blowfish_encryptblock(ctx, &hi, &lo);
-	char a[50];
-	int cn =0
-	while(hi!=0){
-		a[cn]= hi/16/16;
-		cn++
+
+	itoa(hi, histring, 16);
+	itoa(lo, lostring, 16);
+	strcat(histring, lostring);
+	len = strlen(histring);
+	unsigned int  ik, jk ;
+	for (ik = 0, jk = 0; jk < len; ++ik, jk += 2) {
+		int val[1];
+		sscanf(histring + jk, "%2x", val);
+		string[ik] = val[0];
 	}
-	while(lo!=0){
-		a[cn]= hi/16/16;
-		cn++
-	}
+	string[ik] = '\0';
+	
 	blowfish_clean(ctx);
 	free(ctx);
 	
 	
 	Send_Packet(RADDR, SYNC);
 	//delayms(10);
-	
+	printf("sdfdf");
 	int i=0;
 	while(str1[i] != '\0'){
-		Send_Packet(RADDR, a[i]);
+		Send_Packet(RADDR, string[i]);
 		//delayms(10);
 		
 		i++;
