@@ -678,8 +678,7 @@ void PS2Keyboard::begin(uint8_t data_pin, uint8_t irq_pin, const PS2Keymap_t &ma
     attachInterrupt(irq_num, ps2interrupt, FALLING);
   }
 }
-const int kDataPin = 3;
-const int kIRQpin =  2;
+const int kDataPin = 3, kIRQpin =  2;//keyboard  
 
 PS2Keyboard keyboard;
 
